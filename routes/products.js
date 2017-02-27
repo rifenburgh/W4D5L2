@@ -96,6 +96,18 @@ router.post('/products/:id', (req, res, next) => {
   res.redirect('/products');
   });
 });
+router.post('/products/:id/delete', (req, res, next) => {
+  const productId = req.params.id;
+  //mongo conversion completing db.products.deleteOne({_id: productId})
+  Product.findByIdAndRemove(productId, (err, prodDoc) => {
+    if (err) {
+      next (err);
+      return;
+    }
+    res.redirect('/products');
+  });
+
+});
 
 
 //This file must be required/imported by app.js
