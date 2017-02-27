@@ -36,13 +36,31 @@ router.post('/products/new', (req, res, next) => {
       next (err);
       return;
     }
+    //without redirecting, the user could re-submit the form by refreshing
     res.redirect('/products');
   });
 });
 
 router.get('/products/remove', (req, res, next) => {});
 
-router.get('/products/:id', (req, res, next) => {});
+//This will establish a route to a product details page for each item in the store
+//This route needs to be after the 'NEW' route, potentially at the end of all of the routes
+//req.params will query the parameters
+router.get('/products/:id', (req, res, next) => {
+  const productId = req.params.id;
+  Product.findById(productId, (err, prodDoc) => {
+    if (err) {
+      next(err);
+      return;
+    }
+    res.render('products/show', {
+      product: prodDoc.name,
+      id: prodDoc._id,
+      price: prodDoc.price,
+      description: prodDoc.description
+    });
+  });
+});
 
 
 //This file must be required/imported by app.js
