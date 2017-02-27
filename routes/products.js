@@ -62,6 +62,41 @@ router.get('/products/:id', (req, res, next) => {
   });
 });
 
+router.get('/products/:id/edit', (req, res, next) => {
+  const productId = req.params.id;
+  Product.findById(productId, (err, prodDoc) => {
+
+    if (err) {
+      next(err);
+      return;
+    }
+    res.render('products/edit', {
+      item: prodDoc,
+      name: prodDoc.name,
+      product: prodDoc.name,
+      price: prodDoc.price,
+      description: prodDoc.description,
+      id: prodDoc._id
+    });
+  });
+});
+router.post('/products/:id', (req, res, next) => {
+  const productId = req.params.id;
+  const productUpdates = {
+    name: req.body.name,
+    price: req.body.price,
+    imageUrl: req.body.imageUrl,
+    desrciption: req.body.description
+  };
+  Product.findByIdAndUpdate(productId, productUpdates, (err, products) => {
+  // if(err) {
+  //   next(err);
+  //   return;
+  // }
+  res.redirect('/products');
+  });
+});
+
 
 //This file must be required/imported by app.js
 module.exports = router;
