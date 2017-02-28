@@ -1,0 +1,24 @@
+<h2>
+  <%= product._id %>
+</h2>
+
+<div class="col-md-5">
+  <%= product.name %>
+  <br>
+  <%= product.price %>
+  <br>
+  <%= product.description %>
+</div>
+<div class="col-md-5">
+  <h2>Review</h2>
+  <!-- This form MUST POST to specific ID of the item being updated -->
+  <form action="/product-reviews/<%= product._id %>/reviews" method="post">
+    <input type="text" name="content" value="Content">
+    <input type="text" name="stars" value="Stars">
+    <input type="text" name="author" value="Author">
+    <input type="text" name="imageUrl" value="imageUrl">
+    <p></p>
+    <button type="submit" class="btn btn-primary">Update Product</button>
+
+  </form>
+</div>

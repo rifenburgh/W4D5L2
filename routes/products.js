@@ -7,10 +7,10 @@ const router = express.Router();  //Can be used by as if you were using app.rout
 router.get('/products', (req, res, next) => {
   // res.send('Products List Page');
   Product.find({},{}, (err, products) => {
-    if (err) {
-      next(err);  //if there is an error go to the 'next' item in the loop
-      return;
-    }
+    // if (err) {
+    //   next(err);  //if there is an error go to the 'next' item in the loop
+    //   return;
+    // }
     //this will display the views/products/index.ejs file
     res.render('products/index', {
       products: products
@@ -20,7 +20,9 @@ router.get('/products', (req, res, next) => {
 
 //Forms need two routes, one to display a form and another to recieve the data
 router.get('/products/new', (req, res, next) => {
-  res.render('products/new', {});
+  res.render('products/new', {
+    errorMessage: false
+  });
 });
 
 router.post('/products/new', (req, res, next) => {
@@ -33,11 +35,21 @@ router.post('/products/new', (req, res, next) => {
   const theProduct = new Product(productInfo);
   theProduct.save((err) => {
     if (err) {
-      next (err);
-      return;
+      res.render('products/new', {
+        errorMessage: "Validation failed because...",
+        errors: theProduct.errors
+      });
     }
+    // res.render('products/new');
+    // if (err) {
+    //   next (err);
+    //   return;
+    // }
     //without redirecting, the user could re-submit the form by refreshing
-    res.redirect('/products');
+    res.redirect('/products', {
+      errorMessage: false
+    });
+    return;
   });
 });
 

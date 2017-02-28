@@ -21,6 +21,7 @@ const mongoose = require('mongoose');
 const expressLayouts = require('express-ejs-layouts');
 var index = require('./routes/index');
 const productRoutes = require('./routes/products.js');
+const reviewRoutes = require('./routes/product-reviews.js');
 //var users = require('./routes/users');  //This Line should be deleted for routes management
 
 mongoose.connect('mongodb://localhost/W4D5L2');
@@ -41,6 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/', productRoutes);
+app.use('/', reviewRoutes);
 //app.use('/users', users); //This line should be deleted for routes management
 
 // catch 404 and forward to error handler
